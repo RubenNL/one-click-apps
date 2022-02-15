@@ -39,7 +39,7 @@ caproverOneClickApp:
           validRegex: /^([^\s^\/])+$/
         - id: $$cap_postgres_version
           label: Postgres Version
-          defaultValue: '5.7'
+          defaultValue: '14-alpine'
           description: Check out their Docker page for the valid tags https://hub.docker.com/r/library/postgres/tags/
           validRegex: /^([^\s^\/])+$/
     instructions:
