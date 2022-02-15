@@ -12,6 +12,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14
-      - run: npm ci && npm run publish
-        env:
-          GITHUB_PERSONAL_TOKEN: ${{secrets.GITHUB_PERSONAL_TOKEN}}
+      - run: npm ci && npm run build
+      - name: Deploy to pages
+        uses: JamesIves/github-pages-deploy-action@v4.2.3
+        with:
+          branch: gh-pages
+          folder: ./dist
+          clean: true
+          single-commit: true
+          git-config-name: 'github-actions'
+          git-config-email: '<>'
