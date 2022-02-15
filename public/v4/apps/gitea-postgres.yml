@@ -1,15 +1,14 @@
 captainVersion: 4
 services:
     $$cap_appname-db:
-        image: mysql:$$cap_mysql_version
+        image: postgres:$$cap_postgres_version
         volumes:
-            - $$cap_appname-db-data:/var/lib/mysql
+            - $$cap_appname-db-data:/var/lib/postgresql/data
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: $$cap_db_pass
-            MYSQL_DATABASE: gitea
-            MYSQL_USER: gitea
-            MYSQL_PASSWORD: $$cap_db_pass
+            POSTGRES_PASSWORD: $$cap_db_pass
+            POSTGRES_USER: gitea
+            POSTGRES_DB: gitea
         caproverExtra:
             notExposeAsWebApp: 'true'
     $$cap_appname:
@@ -21,8 +20,8 @@ services:
         restart: always
         environment:
             RUN_MODE: prod
-            DB_TYPE: mysql
-            DB_HOST: srv-captain--$$cap_appname-db:3306
+            DB_TYPE: postgres
+            DB_HOST: srv-captain--$$cap_appname-db:5432
             DB_USER: gitea
             DB_PASSWD: $$cap_db_pass
         caproverExtra:
@@ -30,7 +29,7 @@ services:
 caproverOneClickApp:
     variables:
         - id: $$cap_db_pass
-          label: MySQL Root password
+          label: Postgres Root password
           description: ''
           validRegex: /.{1,}/
         - id: $$cap_gitea_version
@@ -38,16 +37,16 @@ caproverOneClickApp:
           defaultValue: '1.15.6'
           description: Check out their Docker page for the valid tags https://hub.docker.com/r/gitea/gitea/tags
           validRegex: /^([^\s^\/])+$/
-        - id: $$cap_mysql_version
-          label: MySQL Version
+        - id: $$cap_postgres_version
+          label: Postgres Version
           defaultValue: '5.7'
-          description: Check out their Docker page for the valid tags https://hub.docker.com/r/library/mysql/tags/
+          description: Check out their Docker page for the valid tags https://hub.docker.com/r/library/postgres/tags/
           validRegex: /^([^\s^\/])+$/
     instructions:
         start: >-
             A painless self-hosted Git service. Gitea is a community managed fork of Gogs.
 
-            Enter your Gitea Configuration parameters and click on next. A MySQL (database) and a Gitea container will be created for you. The process will take about a minute to finish.
+            Enter your Gitea Configuration parameters and click on next. A PostgreSQL (database) and a Gitea container will be created for you. The process will take about a minute to finish.
         end: >
             Gitea is deployed and available as $$cap_appname.
 
